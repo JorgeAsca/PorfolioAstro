@@ -1,0 +1,97 @@
+---
+const socialIcons = [
+  { href: "#", icon: "M22.46,6C21.69,6.35 20.86,6.58 20,6.69C20.9,6.13 21.6,5.32 21.88,4.31C21.05,4.81 20.13,5.16 19.16,5.36C18.37,4.5 17.26,4 16,4C13.65,4 11.73,5.92 11.73,8.29C11.73,8.63 11.77,8.96 11.84,9.27C8.28,9.09 5.11,7.38 2.9,4.79C2.53,5.42 2.34,6.16 2.34,6.94C2.34,8.43 3.1,9.75 4.12,10.55C3.4,10.53 2.73,10.34 2.16,10V10.06C2.16,12.22 3.66,14.04 5.79,14.45C5.43,14.54 5.05,14.6 4.66,14.6C4.37,14.6 4.08,14.57 3.8,14.51C4.36,16.28 6.09,17.56 8.12,17.6C6.63,18.78 4.81,19.5 2.83,19.5C2.49,19.5 2.14,19.48 1.82,19.43C3.87,20.78 6.26,21.5 8.84,21.5C16.02,21.5 20.33,15.65 20.33,10.5C20.33,10.3 20.33,10.1 20.32,9.9C21.07,9.39 21.84,8.73 22.46,6Z" }, // Twitter
+  { href: "#", icon: "M12,2.163C10.07,2.163 9.75,2.172 8.88,2.211C7.03,2.31 5.42,2.91 4.22,4.11C3.02,5.31 2.41,6.92 2.31,8.77C2.27,9.64 2.26,9.96 2.26,11.89C2.26,13.82 2.27,14.14 2.31,15.01C2.41,16.86 3.02,18.47 4.22,19.67C5.42,20.87 7.03,21.48 8.88,21.58C9.75,21.62 10.07,21.63 12,21.63C13.93,21.63 14.25,21.62 15.12,21.58C16.97,21.48 18.58,20.87 19.78,19.67C20.98,18.47 21.59,16.86 21.69,15.01C21.73,14.14 21.74,13.82 21.74,11.89C21.74,9.96 21.73,9.64 21.69,8.77C21.59,6.92 20.98,5.31 19.78,4.11C18.58,2.91 16.97,2.31 15.12,2.21C14.25,2.17 13.93,2.16 12,2.16M12,0C13.97,0 14.3,0.01 15.17,0.05C17.1,0.15 18.76,0.8 20.2,2.24C21.64,3.68 22.29,5.34 22.39,7.27C22.43,8.14 22.44,8.47 22.44,10.44C22.44,12.41 22.43,12.74 22.39,13.61C22.29,15.54 21.64,17.2 20.2,18.64C18.76,20.08 17.1,20.73 15.17,20.83C14.3,20.87 13.97,20.88 12,20.88C10.03,20.88 9.7,20.87 8.83,20.83C6.9,20.73 5.24,20.08 3.8,18.64C2.36,17.2 1.71,15.54 1.61,13.61C1.57,12.74 1.56,12.41 1.56,10.44C1.56,8.47 1.57,8.14 1.61,7.27C1.71,5.34 2.36,3.68 3.8,2.24C5.24,0.8 6.9,0.15 8.83,0.05C9.7,0.01 10.03,0 12,0M12,5.43C8.38,5.43 5.44,8.37 5.44,12C5.44,15.63 8.38,18.57 12,18.57C15.62,18.57 18.56,15.63 18.56,12C18.56,8.37 15.62,5.43 12,5.43M12,16.59C9.45,16.59 7.42,14.56 7.42,12C7.42,9.44 9.45,7.41 12,7.41C14.55,7.41 16.58,9.44 16.58,12C16.58,14.56 14.55,16.59 12,16.59M18.88,3.97C18.19,3.97 17.62,4.54 17.62,5.23C17.62,5.92 18.19,6.49 18.88,6.49C19.57,6.49 20.14,5.92 20.14,5.23C20.14,4.54 19.57,3.97 18.88,3.97" }, // Instagram
+  { href: "#", icon: "M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297 24 5.67 18.63 0 12 0" }, // GitHub
+  { href: "#", icon: "M4 6a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm14 0H6v12h12V6zM8 8a2 2 0 100 4 2 2 0 000-4zM8 14a2 2 0 100 4 2 2 0 000-4z" }, // RSS (placeholder)
+  { href: "#", icon: "M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" }, // Email
+];
+---
+<div 
+  id="nav-overlay" 
+  class="fixed inset-4 z-50 bg-blue-200 text-gray-900 
+         flex flex-col
+         transform -translate-y-full transition-transform duration-500 ease-in-out
+         rounded-lg"
+>
+    
+    
+    <div class="w-full px-8 sm:px-12 py-8 h-full flex flex-col"> 
+        
+       
+        <div class="flex justify-between items-center text-sm font-bold tracking-widest mb-16"> 
+           
+         <div class="flex items-center gap-6">
+                
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8 text-purple-600">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 003.07-1.377A51.383 51.383 0 0112 6.347a51.383 51.383 0 015.692 2.424 50.57 50.57 0 003.07 1.377M3.779 16.509a50.57 50.57 0 013.071-1.377A51.383 51.383 0 0012 17.653a51.383 51.383 0 005.692-2.424 50.57 50.57 0 013.07 1.377M3.779 16.509a50.57 50.57 0 003.07 1.377A51.383 51.383 0 0112 17.653a51.383 51.383 0 015.692-2.424 50.57 50.57 0 003.07-1.377" />
+                </svg>
+                <button id="menu-close-btn" class="group">
+                    CLOSE
+          
+                   <span class="block max-w-0 group-hover:max-w-full transition-all duration-300 h-0.5 bg-gray-900"></span>
+                </button>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                
+            
+                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-3.86 8.25-8.625 8.25S3.75 16.556 3.75 12c0-4.556 3.86-8.25 8.625-8.25S21 7.444 21 12z" />
+                </svg>
+       
+                 <a href="#" class="group">
+                    HIRE ME
+                    <span class="block max-w-0 group-hover:max-w-full transition-all duration-300 h-0.5 bg-gray-900"></span>
+                </a>
+            </div>
+        </div>
+
+     
+        
+        <div class="flex-1 flex flex-col justify-center">
+            
+            
+            <div class="mb-16 nav-link-animate" style="--link-delay: 100ms;"> 
+                
+                <span class="block w-16 h-0.5 bg-purple-600 mb-6"></span>
+                 
+                
+                <div class="flex gap-5">
+                    {socialIcons.map(social => (
+                        <a href={social.href} class="text-gray-900 hover:text-purple-600 transition-colors" target="_blank" rel="noopener noreferrer">
+    
+                             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d={social.icon}></path>
+                            </svg>
+        
+                         </a>
+                    ))}
+                 </div>
+            </div>
+
+            
+            <div class="flex flex-col gap-10">
+        
+                 <div class="flex items-baseline gap-6 nav-link-animate" style="--link-delay: 200ms;">
+                    <h2 class="font-bold text-6xl text-gray-900 hover:text-purple-600 transition-colors"><a href="/">Home</a></h2>
+                    <p class="text-gray-700">Back to the home page.</p>
+                </div>
+                
+   
+                 <div class="flex items-baseline gap-6 nav-link-animate" style="--link-delay: 300ms;">
+                    <h2 class="font-bold text-6xl text-gray-900 hover:text-purple-600 transition-colors"><a href="/proyectos">Proyectos</a></h2>
+                    <p class="text-gray-700">My approach to development.</p>
+                </div>
+               
+ 
+                <div class="flex items-baseline gap-6 nav-link-animate" style="--link-delay: 400ms;">
+                    <h2 class="font-bold text-6xl text-gray-900 hover:text-purple-600 transition-colors"><a href="/contacto">Contacto</a></h2>
+                    <p class="text-gray-700">Hablemos de tu proyecto.</p>
+                </div>
+           
+             </div>
+            
+        </div>
+    </div> 
+</div>

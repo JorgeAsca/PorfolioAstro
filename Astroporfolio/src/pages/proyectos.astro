@@ -1,0 +1,35 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+---
+<Layout title="Proyectos - Jorge Asca">
+    <Navbar />
+
+    <main class="min-h-screen pt-32">
+        <div class="max-w-7xl mx-auto px-4">
+            
+            <h1 class="text-7xl font-bold mb-16 text-gray-900">Proyectos.</h1>
+
+            <ProjectCard 
+                title="Proyecto Uno"
+                subtitle="Diseño UI/UX y Desarrollo"
+                imgSrc="https://via.placeholder.com/400x300.png/2c2c2c/ffffff?text=Proyecto+1"
+            />
+            
+            <ProjectCard 
+                title="Proyecto Dos"
+                subtitle="Desarrollo Front-end"
+                imgSrc="https://via.placeholder.com/400x300.png/2c2c2c/ffffff?text=Proyecto+2"
+                reverse={true}
+            />
+
+            <ProjectCard 
+                title="Proyecto Tres"
+                subtitle="Aplicación Web Completa"
+                imgSrc="https://via.placeholder.com/400x300.png/2c2c2c/ffffff?text=Proyecto+3"
+            />
+
+        </div>
+    </main>
+</Layout>

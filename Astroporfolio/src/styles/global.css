@@ -1,0 +1,28 @@
+
+
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    transition-delay: var(--animation-delay, 0ms);
+}
+
+.animate-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+/* --- FIN DE LO AÑADIDO --- */
+
+.nav-link-animate {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    /* Usamos una variable para el retraso */
+    transition-delay: var(--link-delay, 0ms);
+}
+
+#nav-overlay:not(.-translate-y-full) .nav-link-animate {
+    /* ...mostrar los enlaces */
+    opacity: 1;
+    transform: translateY(0);
+}

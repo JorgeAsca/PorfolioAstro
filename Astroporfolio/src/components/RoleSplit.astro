@@ -1,0 +1,57 @@
+---
+// Datos para las listas
+const designerSkills = [
+  "UI design",
+  "UX design",
+  "Design Systems",
+  "Interaction design",
+  "\"Making it, pop\"",
+];
+
+const coderSkills = [
+  "Front-end development",
+  "HTML / CSS",
+  "JavaScript (kinda)",
+  "Swearing at my computer",
+  "Eating pizza",
+];
+---
+<section class="py-20">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
+        
+        <div class="md:text-right">
+            <h3 class="text-2xl font-bold mb-4 text-gray-800">Part designer</h3>
+            <ul class="text-lg text-gray-600 space-y-1">
+                {designerSkills.map(skill => (
+                    <li>{skill}</li>
+                ))}
+            </ul>
+        </div>
+
+        <div class="flex justify-center order-first md:order-none">
+            <div class="relative w-48 h-48 rounded-full flex items-center justify-center overflow-hidden shadow-lg">
+                
+                <div class="absolute w-full h-full 
+                            bg-[conic-gradient(from_180deg_at_50%_50%,_#1f2937_0deg_144deg,_#D1D5DB_144deg_360deg)]">
+                </div>
+                
+                <span class="absolute text-gray-800 text-xl font-bold" style="left: 15%;">
+                    Designer
+                </span>
+                <span class="absolute text-white text-xl font-bold" style="right: 22%;">
+                    Coder
+                </span>
+            </div>
+        </div>
+
+        <div class="text-left">
+            <h3 class="text-2xl font-bold mb-4 text-gray-800">Part coder</h3>
+            <ul class="text-lg text-gray-600 space-y-1">
+                {coderSkills.map(skill => (
+                    <li>{skill}</li>
+                ))}
+            </ul>
+        </div>
+
+    </div>
+</section>

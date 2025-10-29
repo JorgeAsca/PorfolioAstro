@@ -11,4 +11,3 @@ if (openBtn && closeBtn && overlay) {
         overlay.classList.add('-translate-y-full'); // Oculta el menú
     });
 }
-// LA LLAVE EXTRA QUE ESTABA AQUÍ HA SIDO ELIMINADA

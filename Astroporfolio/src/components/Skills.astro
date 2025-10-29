@@ -1,12 +1,11 @@
 ---
 const skills = [
-  { name: 'Maquetación', level: 95, color: 'bg-teal-300' },
-  { name: 'Integración', level: 90, color: 'bg-pink-200' },
-  { name: 'Backend', level: 85, color: 'bg-yellow-400' },
-  { name: 'Diseño', level: 75, color: 'bg-yellow-600' },
-  { name: 'Gestión de BDs', level: 70, color: 'bg-red-500' },
+  { name: 'Maquetación', level: 50, color: 'bg-teal-300' },
+  { name: 'Integración', level: 50, color: 'bg-pink-200' },
+  { name: 'Backend', level: 50, color: 'bg-yellow-400' },
+  { name: 'Diseño', level: 50, color: 'bg-yellow-600' },
+  { name: 'Gestión de BDs', level: 50, color: 'bg-red-500' },
 ];
-
 const yAxisLabels = ['Avanzado', 'Intermedio', 'Basico'];
 ---
 <section class="py-20">
@@ -19,23 +18,27 @@ const yAxisLabels = ['Avanzado', 'Intermedio', 'Basico'];
             {yAxisLabels.map(label => (
                 <span>{label}</span>
             ))}
-        </div>
+    
+    </div>
 
-        <div class="flex-1 grid grid-cols-5 gap-6 items-end h-full">
+        <div class="flex-1 grid grid-cols-5 gap-6 h-full">
             
             {skills.map(skill => (
-                <div class="flex flex-col items-center gap-2">
+                <div class="flex flex-col items-center gap-2 h-full justify-end">
                     <div
-                        class:list={[
+                
+        class:list={[
                             "w-full rounded-lg flex items-center justify-center text-white font-bold text-lg shadow-md",
                             skill.color
                         ]}
-                        style="height: 50%;" >
+    
+                                            style="height: 50%;" >
                         <span>{skill.level}%</span> </div>
                     <span class="font-medium text-gray-700 text-center">{skill.name}</span>
                 </div>
             ))}
 
-        </div>
+  
+      </div>
     </div>
 </section>

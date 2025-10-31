@@ -1,7 +1,17 @@
-
-<section class="min-h-screen grid grid-cols-1 md:grid-cols-2 gap-8 items-center pt-32 pb-16">
+<section class="min-h-screen grid grid-cols-1 md:grid-cols-2 gap-8 items-center pt-32 pb-16 relative">
     
-    <div class="flex flex-col gap-6">
+    <div 
+        class="absolute top-1/2 left-0 right-0 h-48 bg-blue-100 opacity-30 z-0"
+        style="
+            background-image: linear-gradient(to right, #bfdbfe 1px, transparent 1px),
+                              linear-gradient(to bottom, #bfdbfe 1px, transparent 1px);
+            background-size: 10px 10px;
+            transform: translateY(-50%);
+        "
+    >
+    </div>
+
+    <div class="flex flex-col gap-6 relative z-10">
         <h1 
             class="font-bold text-5xl sm:text-7xl leading-tight animate-on-scroll"
         >
@@ -12,13 +22,23 @@
             style="--animation-delay: 100ms;"
         >
             Soy un estudiante de DAW (Despliegue de aplcaciones web) 
-            apasionado por el desarrollo web y el diseño creativo. 
+            apasionado por el desarrollo web y el diseño creativo.
         </p>
     </div>
 
-    <div class="flex items-center justify-center animate-on-scroll" style="--animation-delay: 150ms;">
-        <div class="w-full max-w-md h-96 bg-blue-200 rounded-lg shadow-xl flex items-center justify-center">
-            <span class="text-blue-800">Acá va mi foto</span>
-        </div>
+    <div 
+        class="flex items-center justify-center animate-on-scroll relative z-10 group" 
+        style="--animation-delay: 150ms;"
+    >
+        <img 
+            src="/images/Jorgeasca.jpg" 
+            alt="Foto de Jorge Asca" 
+            class="w-full max-w-md h-96 
+                   object-cover 
+                   rounded-2xl 
+                   shadow-xl 
+                   transition-transform duration-300 ease-in-out group-hover:scale-105"
+        />
+        
     </div>
-</section>
+    </section>

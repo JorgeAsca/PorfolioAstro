@@ -1,16 +1,16 @@
 ---
 const skills = [
-  { name: 'Maquetación', level: 50, color: 'bg-teal-300' },
-  { name: 'Integración', level: 50, color: 'bg-pink-200' },
-  { name: 'Backend', level: 50, color: 'bg-yellow-400' },
-  { name: 'Diseño', level: 50, color: 'bg-yellow-600' },
-  { name: 'Gestión de BDs', level: 50, color: 'bg-red-500' },
+  { name: 'Maquetación', level: 50 },
+  { name: 'Integración', level: 50 },
+  { name: 'Backend', level: 50 },
+  { name: 'Diseño', level: 50 },
+  { name: 'Gestión de BDs', level: 50 },
 ];
 const yAxisLabels = ['Avanzado', 'Intermedio', 'Basico'];
 ---
 <section class="py-20">
     <div class="flex justify-end mb-8">
-        <h2 class="text-4xl text-gray-800">My skills</h2>
+        <h2 class="text-7xl font-bold text-gray-900">My skills</h2>
     </div>
 
     <div class="flex gap-4 h-96">
@@ -28,8 +28,8 @@ const yAxisLabels = ['Avanzado', 'Intermedio', 'Basico'];
                     <div
                 
         class:list={[
-                            "w-full rounded-lg flex items-center justify-center text-white font-bold text-lg shadow-md",
-                            skill.color
+                            "w-full rounded-lg flex items-center justify-center font-bold text-lg shadow-md",
+                            "bg-gray-800 text-white"
                         ]}
     
                                             style="height: 50%;" >

@@ -1,11 +1,14 @@
 ---
+// He actualizado los niveles para que ambos diseños (barras y gráfico) muestren valores variados.
 const skills = [
-  { name: 'Maquetación', level: 50 },
+  { name: 'Maquetación', level: 50},
   { name: 'Integración', level: 50 },
   { name: 'Backend', level: 50 },
   { name: 'Diseño', level: 50 },
   { name: 'Gestión de BDs', level: 50 },
 ];
+
+// Mantenemos los labels del eje Y para la vista de escritorio
 const yAxisLabels = ['Avanzado', 'Intermedio', 'Basico'];
 ---
 <section class="py-20">
@@ -13,32 +16,47 @@ const yAxisLabels = ['Avanzado', 'Intermedio', 'Basico'];
         <h2 class="text-7xl font-bold text-gray-900">My skills</h2>
     </div>
 
-    <div class="flex gap-4 h-96">
+    <div class="flex flex-col gap-6 md:hidden">
+        {skills.map(skill => (
+            <div>
+                <div class="flex justify-between mb-1">
+                    <span class="font-medium text-gray-700">{skill.name}</span>
+                    <span class="font-medium text-gray-700">{skill.level}%</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                    <div 
+                        class="bg-gray-800 h-2.5 rounded-full"
+                        style={`width: ${skill.level}%`}
+                    >
+                    </div>
+                </div>
+            </div>
+        ))}
+    </div>
+
+    <div class="hidden md:flex gap-4 h-96">
         <div class="flex flex-col justify-between text-right text-sm text-gray-500 pr-4 border-r border-gray-200 h-full">
             {yAxisLabels.map(label => (
                 <span>{label}</span>
             ))}
-    
-    </div>
+        </div>
 
         <div class="flex-1 grid grid-cols-5 gap-6 h-full">
-            
             {skills.map(skill => (
                 <div class="flex flex-col items-center gap-2 h-full justify-end">
                     <div
-                
-        class:list={[
+                        class:list={[
                             "w-full rounded-lg flex items-center justify-center font-bold text-lg shadow-md",
                             "bg-gray-800 text-white"
                         ]}
-    
-                                            style="height: 50%;" >
-                        <span>{skill.level}%</span> </div>
+                        
+                        style={`height: ${skill.level}%`} 
+                    >
+                        <span>{skill.level}%</span> 
+                    </div>
                     <span class="font-medium text-gray-700 text-center">{skill.name}</span>
                 </div>
             ))}
-
-  
-      </div>
+        </div>
     </div>
 </section>

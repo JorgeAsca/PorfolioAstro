@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/Navbar.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 ---
-<Layout title="Proyectos - Jorge Asca">
+<Layout title="Proyectos y Tecnologías - Jorge Asca">
     <Navbar />
 
     <main class="min-h-screen pt-32">
@@ -13,25 +13,61 @@ import ProjectCard from '../components/ProjectCard.astro';
 
             <ProjectCard 
                 title="Tienda Online"
-                
- subtitle="Tienda desarrollada en React"
-                imgSrc=""
+                subtitle="Tienda desarrollada en React"
+                imgSrc="/images/Vape.jpg"
             />
             
             <ProjectCard 
                 title="Inventario App"
                 subtitle="Tienda desarrollada en React"
-        
-                 imgSrc=""
+                imgSrc="/images/Proyecto 2.jpg"
                 reverse={true}
             />
 
-            <ProjectCard 
-                title="Proyecto Tres"
-                subtitle="Aplicación Web Completa"
+            <section class="py-20">
+                <h2 class="text-5xl sm:text-7xl font-bold mb-16 text-gray-900">
+                    Tecnologías
+                </h2>
                 
- imgSrc=""
-            />
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                    
+                    <div class="bg-gray-50 p-8 rounded-lg shadow-lg">
+                        <h3 class="text-3xl font-bold text-gray-800 mb-8">Front-end</h3>
+                        
+                        <div class="flex flex-wrap gap-3">
+                            <span class="bg-white text-gray-800 px-4 py-2 rounded-lg shadow font-medium border border-gray-200">Angular</span>
+                            <span class="bg-white text-gray-800 px-4 py-2 rounded-lg shadow font-medium border border-gray-200">React</span>
+                            <span class="bg-white text-gray-800 px-4 py-2 rounded-lg shadow font-medium border border-gray-200">Vue</span>
+                            <span class="bg-white text-gray-800 px-4 py-2 rounded-lg shadow font-medium border border-gray-200">Astro</span>
+                            <span class="bg-white text-gray-800 px-4 py-2 rounded-lg shadow font-medium border border-gray-200">JavaScript</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 p-8 rounded-lg shadow-lg">
+                        <h3 class="text-3xl font-bold text-gray-800 mb-8">Back-end</h3>
+
+                        <div class="flex flex-wrap gap-3">
+                            <span class="bg-white text-gray-800 px-4 py-2 rounded-lg shadow font-medium border border-gray-200">Java</span>
+                            <span class="bg-white text-gray-800 px-4 py-2 rounded-lg shadow font-medium border border-gray-200">Spring Boot</span>
+                            <span class="bg-white text-gray-800 px-4 py-2 rounded-lg shadow font-medium border border-gray-200">NestJS</span>
+                            <span class="bg-white text-gray-800 px-4 py-2 rounded-lg shadow font-medium border border-gray-200">JavaScript (Node.js)</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 p-8 rounded-lg shadow-lg">
+                        <h3 class="text-3xl font-bold text-gray-800 mb-8">Bases de Datos y Despliegue</h3>
+                        <p class="text-lg text-gray-700 mb-6">
+                            Dominio de tecnologías y metodologías para:
+                        </p>
+
+                        <div class="flex flex-wrap gap-3">
+                            <span class="bg-white text-gray-800 px-4 py-2 rounded-lg shadow font-medium border border-gray-200">Gestión de Bases de Datos</span>
+                            <span class="bg-white text-gray-800 px-4 py-2 rounded-lg shadow font-medium border border-gray-200">Despliegue de Aplicaciones Web</span>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
 
         </div>
     </main>

@@ -1,5 +1,4 @@
 ---
-// He actualizado los niveles para que ambos diseños (barras y gráfico) muestren valores variados.
 const skills = [
   { name: 'Maquetación', level: 80},
   { name: 'Integración', level: 50 },
@@ -7,8 +6,6 @@ const skills = [
   { name: 'Diseño', level: 70 },
   { name: 'Gestión de BDs', level: 80 },
 ];
-
-// Mantenemos los labels del eje Y para la vista de escritorio
 const yAxisLabels = ['Avanzado', 'Intermedio', 'Basico'];
 ---
 <section class="py-20">
@@ -46,7 +43,7 @@ const yAxisLabels = ['Avanzado', 'Intermedio', 'Basico'];
                 <div class="flex flex-col items-center gap-2 h-full justify-end">
                     <div
                         class:list={[
-                            "w-full rounded-lg flex items-center justify-center font-bold text-lg shadow-md",
+                            "w-5/6 rounded-lg flex items-center justify-center font-bold text-lg shadow-md",
                             "bg-gray-800 text-white"
                         ]}
                         

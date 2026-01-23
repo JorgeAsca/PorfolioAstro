@@ -1,19 +1,19 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: webtaller-ingress
-  namespace: proyectotaller
+  name: ingress-astroporfolio
+  namespace: namespace-miportfolio
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-    - host: webtaller.jorgedesarrollador.com
+    - host: www.jorgedesarrollador.com 
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: webtaller-svc
+                name: service-astroporfolio
                 port:
                   number: 80

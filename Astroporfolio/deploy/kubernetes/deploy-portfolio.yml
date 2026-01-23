@@ -1,21 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: webtaller-deployment
-  namespace: proyectotaller
+  name: deploy-astroporfolio
+  namespace: namespace-miportfolio 
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
-      app: webtaller
+      app: astroporfolio
   template:
     metadata:
       labels:
-        app: webtaller
+        app: astroporfolio
     spec:
       containers:
-        - name: webtaller
-          image: jorgeas/ubjambbptaller:latest
-          # imagePullPolicy: Never
+        - name: astroporfolio
+          image: jorgeas/astroporfolio:latest 
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"

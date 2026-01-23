@@ -1,8 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: namespace-astroporfolio
-  namespace: namespace-miportfolio 
+  name: deploy-astroporfolio
+  namespace: namespace-astroporfolio 
 spec:
   replicas: 1
   selector:
@@ -15,8 +15,7 @@ spec:
     spec:
       containers:
         - name: astroporfolio
-          image: jorgeas/astroporfolio:latest 
-          imagePullPolicy: Always
+          image: jorgeas/astroporfolio-nginx:latest 
           ports:
             - containerPort: 80
           resources:

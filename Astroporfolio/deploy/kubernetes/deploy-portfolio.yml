@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webtaller-deployment
+  namespace: proyectotaller
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: webtaller
+  template:
+    metadata:
+      labels:
+        app: webtaller
+    spec:
+      containers:
+        - name: webtaller
+          image: jorgeas/ubjambbptaller:latest
+          # imagePullPolicy: Never
+          ports:
+            - containerPort: 80

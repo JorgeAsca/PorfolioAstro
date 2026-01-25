@@ -5,6 +5,7 @@ ARG USUARIO
 ARG TIPO
 ARG USER_NAME
 ARG USER_PASS
+ARG PATH_SRC
 
 
 RUN apt update && apt install -yq --no-install-recommends \
@@ -19,7 +20,7 @@ RUN apt update && apt install -yq --no-install-recommends \
 RUN useradd -rm -d /home/${USER_NAME} -s /bin/bash ${USER_NAME}
 RUN echo "${USER_NAME}:${USER_PASS}" | chpasswd
 
-COPY ./proyectos/${TIPO}/${PROYECTO}/src /var/www/html/
+COPY ${PATH_SRC} /var/www/html/
 
 
 RUN mkdir -p /root/admin

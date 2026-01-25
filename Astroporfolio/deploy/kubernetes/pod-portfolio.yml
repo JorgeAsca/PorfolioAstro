@@ -1,12 +1,14 @@
-
 apiVersion: v1
 kind: Pod
 metadata:
-  name: webtaller
-  namespace: proyectotaller
+  name: pod-astroporfolio
+  namespace: namespace-astroporfolio 
+  labels:
+    app: astroporfolio 
 spec:
   containers:
-    - name: pod-webtaller
-      image: jorgeas/ubjambbptaller:latest
+    - name: astroporfolio
+      image: jorgeas/astroporfolio:latest 
+      imagePullPolicy: Always
       ports:
         - containerPort: 80

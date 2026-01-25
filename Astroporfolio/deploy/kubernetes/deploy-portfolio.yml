@@ -18,6 +18,8 @@ spec:
       containers:
         - name: astroporfolio
           image: jorgeas/astroporfolio:latest
+          command: ["/bin/sh"]
+          args: ["/usr/src/app/dockerfiles/sweb-nginx/admin/start.sh"]
           ports:
             - containerPort: 80
           resources:

@@ -13,11 +13,11 @@ spec:
       labels:
         app: astroporfolio
     spec:
-      containers:
-        - name: astroporfolio
-          image: jorgeas/astroporfolio:latest 
       imagePullSecrets:
         - name: regcred
+      containers:
+        - name: astroporfolio
+          image: jorgeas/astroporfolio:latest
           ports:
             - containerPort: 80
           resources:

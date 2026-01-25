@@ -2,13 +2,13 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: pod-astroporfolio
-  namespace: namespace-astroporfolio 
+  namespace: namespace-astroporfolio
   labels:
-    app: astroporfolio 
+    app: astroporfolio
 spec:
   containers:
     - name: astroporfolio
-      image: jorgeas/astroporfolio:latest 
+      image: jorgeas/astroporfolio:latest
       imagePullPolicy: Always
-      ports:
-        - containerPort: 80
+  ports:
+    - containerPort: 80

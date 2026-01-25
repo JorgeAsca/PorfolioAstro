@@ -15,7 +15,9 @@ spec:
     spec:
       containers:
         - name: astroporfolio
-          image: jorgeas/astroporfolio-nginx:latest 
+          image: jorgeas/astroporfolio:latest 
+      imagePullSecrets:
+        - name: regcred
           ports:
             - containerPort: 80
           resources:

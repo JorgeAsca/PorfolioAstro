@@ -1,7 +1,4 @@
 #!/bin/bash
-
-
 service ssh start
 
-
-nginx -g "daemon off;"
+nginx -g 'daemon off;'

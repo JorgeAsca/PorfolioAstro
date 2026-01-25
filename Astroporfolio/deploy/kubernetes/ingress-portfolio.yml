@@ -6,7 +6,8 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
-  ingressClassName: public
+  
+  ingressClassName: public 
   rules:
     - host: www.jorgedesarrollador.com 
       http:

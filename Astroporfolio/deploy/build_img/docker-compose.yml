@@ -2,11 +2,11 @@ services:
   build:
     build:
       context: ${CONTEXTO_RAIZ}
-      dockerfile: dockerfiles/base/ubbase
+      dockerfile: dockerfiles/base/ubbase 
       args:
         - PROYECTO=${PROYECTO}
         - USUARIO=${USUARIO}
         - TIPO=${TIPO}
         - USER_NAME=${USER_NAME}
         - USER_PASS=${USER_PASS}
-    image: ${DOCKER_USER}/${PROYECTO}:latest
+    image: ${DOCKER_USER}/${PROYECTO}:latest 

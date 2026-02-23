@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-astroporfolio
+  namespace: namespace-astroporfolio 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: astroporfolio
+  template:
+    metadata:
+      labels:
+        app: astroporfolio
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: astroporfolio
+          image: jorgeas/astroporfolio:latest
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"

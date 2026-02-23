@@ -1,0 +1,11 @@
+app:
+  image:
+    repository: jorgeas/astroporfolio:latest
+    pullPolicy: Always
+    tag: latest
+    containerPort: 3080
+
+service:
+  type: NodePort
+  port: 3000
+  nodePort: 30080

@@ -1,0 +1,11 @@
+{(- if .values.enabled -)}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: inventapp-ms-gateway-config
+    manespace: {{ .Release.Namespace }}
+data:
+    Nats_server: {{ .values.global.ntas.url quote }}
+    REPO_GIT: {{ .values.global.env.repo_git | quote }}
+    PORT: {{ .values.global.env.port | quote }}
+{(- end -)}

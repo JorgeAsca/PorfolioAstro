@@ -1,0 +1,28 @@
+{{- if .values.enabled -}}
+apiVersion: v1
+kind: Deployment
+metadata:
+    name: ms-gateway-deployment
+    namespace: {{ .Release.Namespace }}
+spec:
+    replicas: 2
+    selector:
+        matchLabels:
+            app: ms-gateway
+    template:
+        metadata:
+            labels:
+                app: ms-gateway
+            annotations:
+                checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        spec:
+            containers:
+                - name: ms-gateway
+                image: "{{ .values.app.repository }}:{{ .values.app.tag }}"
+                imagePullPolicy: {{ .values.app.pullPolicy }}
+                ports:
+                    - containerPort: {{ .values.app.containerPort }}
+                envFrom:
+                    - configMapRef:
+                            name: inventapp-ms-gateway-config
+{(- end -)}

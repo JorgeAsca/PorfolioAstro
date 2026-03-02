@@ -27,7 +27,8 @@ pipeline {
 
   environment {
     DOCKER_IMAGE = "jorgeas/astroporfolio:latest" 
-    HELM_REPO_URL = "https://github.com/jorgeasca/porfolioastro.git"
+    // URL corregida con mayúsculas para evitar redirecciones de GitHub
+    HELM_REPO_URL = "https://github.com/JorgeAsca/PorfolioAstro.git"
   }
 
   stages {
@@ -37,21 +38,21 @@ pipeline {
       }
     }
 
-stage('Build & Push Image') {
-  steps {
-    container('kaniko') {
-      sh """
-      /kaniko/executor \
-        --context /home/jenkins/agent/workspace/pipeline/Astroporfolio \
-        --dockerfile Astroporfolio/deploy/build_img/Dockerfile \
-        --destination jorgeas/astroporfolio:${GIT_COMMIT} \
-        --destination jorgeas/astroporfolio:latest \
-        --snapshot-mode=redo \
-        --single-snapshot
-      """
+    stage('Build & Push Image') {
+      steps {
+        container('kaniko') {
+          sh """
+          /kaniko/executor \
+            --context /home/jenkins/agent/workspace/pipeline/Astroporfolio \
+            --dockerfile Astroporfolio/deploy/build_img/Dockerfile \
+            --destination jorgeas/astroporfolio:${GIT_COMMIT} \
+            --destination jorgeas/astroporfolio:latest \
+            --snapshot-mode=redo \
+            --single-snapshot
+          """
+        }
+      }
     }
-  }
-}
 
     stage('Update Helm Values') {
       steps {
@@ -64,14 +65,15 @@ stage('Build & Push Image') {
           git config user.email "jenkins@ci.com"
           git config user.name "jenkins"
           
-          # Actualizamos el tag en el values.yaml usando sed
           sed -i "s/tag:.*/tag: \\"${GIT_COMMIT}\\"/" Astroporfolio/deploy/miporfolio/values.yaml
           
           git add Astroporfolio/deploy/miporfolio/values.yaml
-          git commit -m "Update image tag to ${GIT_COMMIT} [skip ci]"
           
-          # Push de vuelta al repositorio para que ArgoCD lo detecte
-          git push https://${GIT_USER}:${GIT_PASSWORD}@github.com/jorgeasca/porfolioastro.git HEAD:main
+          # Mensaje con múltiples etiquetas de skip para máxima seguridad
+          git commit -m "chore: update image tag ${GIT_COMMIT} [skip ci] [ci skip] ***NO_CI***"
+          
+          # Push a la URL correcta
+          git push https://${GIT_USER}:${GIT_PASSWORD}@github.com/JorgeAsca/PorfolioAstro.git HEAD:main
           """
         }
       }

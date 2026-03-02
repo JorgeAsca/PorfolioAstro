@@ -4,7 +4,7 @@ metadata:
   name: jenkins-ingress
   namespace: jenkins
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod" # Preparado para SSL
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
   ingressClassName: public
   tls:
@@ -19,6 +19,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: jenkins
+            name: jenkins 
             port:
               number: 8080

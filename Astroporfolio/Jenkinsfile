@@ -64,9 +64,9 @@ pipeline {
           git config user.name "jenkins"
           
           # Actualizamos el tag en el values.yaml usando sed
-          sed -i "s/tag:.*/tag: ${GIT_COMMIT}/" deploy/miporfolio/values.yaml
+          sed -i "s/tag:.*/tag: ${GIT_COMMIT}/" Astroporfolio/deploy/miporfolio/values.yaml
           
-          git add deploy/miporfolio/values.yaml
+          git add Astroporfolio/deploy/miporfolio/values.yaml
           git commit -m "Update image tag to ${GIT_COMMIT} [skip ci]"
           
           # Push de vuelta al repositorio para que ArgoCD lo detecte

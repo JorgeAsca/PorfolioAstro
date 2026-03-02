@@ -24,7 +24,7 @@ pipeline {
 
   environment {
     // Definimos la ruta al Dockerfile y al repo de Helm
-    DOCKER_IMAGE = "jorgeasca/porfolioastro" 
+    DOCKER_IMAGE = "jorgeas/astroporfolio:latest" 
     HELM_REPO_URL = "https://github.com/jorgeasca/porfolioastro.git"
   }
 
@@ -35,15 +35,15 @@ pipeline {
       }
     }
 
-    stage('Build & Push Image') {
+stage('Build & Push Image') {
   steps {
     container('kaniko') {
       sh """
       /kaniko/executor \
-        --context `pwd` \
+        --context /home/jenkins/agent/workspace/pipeline \
         --dockerfile Astroporfolio/deploy/build_img/Dockerfile \
-        --destination jorgeasca/porfolioastro:${GIT_COMMIT} \
-        --destination jorgeasca/porfolioastro:latest \
+        --destination jorgeas/astroporfolio:${GIT_COMMIT} \
+        --destination jorgeas/astroporfolio:latest \
         --snapshot-mode=redo \
         --single-snapshot
       """

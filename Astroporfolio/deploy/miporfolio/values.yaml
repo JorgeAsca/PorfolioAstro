@@ -1,7 +1,7 @@
 app:
   name: miporfolio
   image:
-    repository: jorgeas/porfolioastro 
+    repository: jorgeas/astroporfolio
     tag: "latest" # El Jenkinsfile reemplazará este valor
     pullPolicy: Always
 

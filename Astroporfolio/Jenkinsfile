@@ -70,7 +70,7 @@ pipeline {
           git commit -m "Update image tag to ${GIT_COMMIT} [skip ci]"
           
           # Push de vuelta al repositorio para que ArgoCD lo detecte
-          git push https://${GIT_USER}:${GIT_PASSWORD}@github.com/jorgeasca/porfolioastro.git HEAD:master
+          git push https://${GIT_USER}:${GIT_PASSWORD}@github.com/jorgeasca/porfolioastro.git HEAD:main
           """
         }
       }

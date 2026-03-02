@@ -18,12 +18,14 @@ pipeline {
             - name: docker-config
               secret:
                 secretName: dockerhub-secret
+                items:
+                  - key: .dockerconfigjson
+                    path: config.json
         """
     }
   }
 
   environment {
-    // Definimos la ruta al Dockerfile y al repo de Helm
     DOCKER_IMAGE = "jorgeas/astroporfolio:latest" 
     HELM_REPO_URL = "https://github.com/jorgeasca/porfolioastro.git"
   }
@@ -35,25 +37,24 @@ pipeline {
       }
     }
 
-stage('Build & Push Image') {
-  steps {
-    container('kaniko') {
-      sh """
-      /kaniko/executor \
-        --context /home/jenkins/agent/workspace/pipeline \
-        --dockerfile Astroporfolio/deploy/build_img/Dockerfile \
-        --destination jorgeas/astroporfolio:${GIT_COMMIT} \
-        --destination jorgeas/astroporfolio:latest \
-        --snapshot-mode=redo \
-        --single-snapshot
-      """
+    stage('Build & Push Image') {
+      steps {
+        container('kaniko') {
+          sh """
+          /kaniko/executor \
+            --context /home/jenkins/agent/workspace/pipeline \
+            --dockerfile Astroporfolio/deploy/build_img/Dockerfile \
+            --destination jorgeas/astroporfolio:${GIT_COMMIT} \
+            --destination jorgeas/astroporfolio:latest \
+            --snapshot-mode=redo \
+            --single-snapshot
+          """
+        }
+      }
     }
-  }
-}
 
     stage('Update Helm Values') {
       steps {
-        // Necesitas crear una credencial en Jenkins con ID 'git-creds'
         withCredentials([usernamePassword(
           credentialsId: 'git-creds', 
           usernameVariable: 'GIT_USER',
@@ -64,7 +65,7 @@ stage('Build & Push Image') {
           git config user.name "jenkins"
           
           # Actualizamos el tag en el values.yaml usando sed
-          sed -i "s/tag:.*/tag: ${GIT_COMMIT}/" Astroporfolio/deploy/miporfolio/values.yaml
+          sed -i "s/tag:.*/tag: \\"${GIT_COMMIT}\\"/" Astroporfolio/deploy/miporfolio/values.yaml
           
           git add Astroporfolio/deploy/miporfolio/values.yaml
           git commit -m "Update image tag to ${GIT_COMMIT} [skip ci]"

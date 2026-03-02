@@ -1,0 +1,79 @@
+pipeline {
+  agent {
+    kubernetes {
+      yaml """
+        apiVersion: v1
+        kind: Pod
+        spec:
+          containers:
+          - name: kaniko
+            image: gcr.io/kaniko-project/executor:debug
+            command:
+            - /busybox/cat
+            tty: true
+            volumeMounts:
+              - name: docker-config
+                mountPath: /kaniko/.docker
+          volumes:
+            - name: docker-config
+              secret:
+                secretName: dockerhub-secret
+        """
+    }
+  }
+
+  environment {
+    // Definimos la ruta al Dockerfile y al repo de Helm
+    DOCKER_IMAGE = "tu-usuario-dockerhub/porfolioastro" 
+    HELM_REPO_URL = "https://github.com/jorgeasca/porfolioastro.git"
+  }
+
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
+
+    stage('Build & Push Image') {
+      steps {
+        container('kaniko') {
+          sh """
+          /kaniko/executor \
+            --context `pwd` \
+            --dockerfile deploy/build_img/Dockerfile \
+            --destination ${DOCKER_IMAGE}:${GIT_COMMIT} \
+            --destination ${DOCKER_IMAGE}:latest \
+            --snapshot-mode=redo \
+            --single-snapshot
+          """
+        }
+      }
+    }
+
+    stage('Update Helm Values') {
+      steps {
+        // Necesitas crear una credencial en Jenkins con ID 'git-creds'
+        withCredentials([usernamePassword(
+          credentialsId: 'git-creds', 
+          usernameVariable: 'GIT_USER',
+          passwordVariable: 'GIT_PASSWORD'
+        )]) {
+          sh """
+          git config user.email "jenkins@ci.com"
+          git config user.name "jenkins"
+          
+          # Actualizamos el tag en el values.yaml usando sed
+          sed -i "s/tag:.*/tag: ${GIT_COMMIT}/" deploy/miporfolio/values.yaml
+          
+          git add deploy/miporfolio/values.yaml
+          git commit -m "Update image tag to ${GIT_COMMIT} [skip ci]"
+          
+          # Push de vuelta al repositorio para que ArgoCD lo detecte
+          git push https://${GIT_USER}:${GIT_PASSWORD}@github.com/jorgeasca/porfolioastro.git HEAD:master
+          """
+        }
+      }
+    }
+  }
+}

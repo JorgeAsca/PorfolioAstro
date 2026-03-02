@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: portfolio-astro
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    # URL de tu repositorio de GitHub
+    repoURL: https://github.com/jorgeasca/porfolioastro.git 
+    targetRevision: master
+    # Ruta exacta donde está tu Chart de Helm
+    path: deploy/miporfolio
+    helm:
+      valueFiles:
+        - values.yaml
+
+  destination:
+    # Despliega en el clúster local donde está ArgoCD
+    server: https://kubernetes.default.svc
+    # Namespace de destino para tu app
+    namespace: portfolio-astro
+
+  syncPolicy:
+    automated:
+      prune: true      # Elimina recursos que ya no estén en Git
+      selfHeal: true   # Corrige cambios manuales hechos en el clúster
+    syncOptions:
+      - CreateNamespace=true # Crea el namespace si no existe

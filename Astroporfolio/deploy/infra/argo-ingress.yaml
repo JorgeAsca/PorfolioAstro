@@ -4,13 +4,17 @@ metadata:
   name: argocd-server-ingress
   namespace: argocd
   annotations:
-    kubernetes.io/ingress.class: public
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/ssl-passthrough: "true"
 spec:
   ingressClassName: public
+  tls:
+  - hosts:
+    - argo.jorgedesarrollador.com
+    secretName: argocd-tls-prod
   rules:
-  - host: www.jorgedesarrollador.com
+  - host: argo.jorgedesarrollador.com
     http:
       paths:
       - path: /

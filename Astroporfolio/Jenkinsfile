@@ -36,20 +36,20 @@ pipeline {
     }
 
     stage('Build & Push Image') {
-      steps {
-        container('kaniko') {
-          sh """
-          /kaniko/executor \
-            --context `pwd` \
-            --dockerfile deploy/build_img/Dockerfile \
-            --destination ${DOCKER_IMAGE}:${GIT_COMMIT} \
-            --destination ${DOCKER_IMAGE}:latest \
-            --snapshot-mode=redo \
-            --single-snapshot
-          """
-        }
-      }
+  steps {
+    container('kaniko') {
+      sh """
+      /kaniko/executor \
+        --context `pwd` \
+        --dockerfile Astroporfolio/deploy/build_img/Dockerfile \
+        --destination jorgeasca/porfolioastro:${GIT_COMMIT} \
+        --destination jorgeasca/porfolioastro:latest \
+        --snapshot-mode=redo \
+        --single-snapshot
+      """
     }
+  }
+}
 
     stage('Update Helm Values') {
       steps {

@@ -37,21 +37,21 @@ pipeline {
       }
     }
 
-    stage('Build & Push Image') {
-      steps {
-        container('kaniko') {
-          sh """
-          /kaniko/executor \
-            --context /home/jenkins/agent/workspace/pipeline \
-            --dockerfile Astroporfolio/deploy/build_img/Dockerfile \
-            --destination jorgeas/astroporfolio:${GIT_COMMIT} \
-            --destination jorgeas/astroporfolio:latest \
-            --snapshot-mode=redo \
-            --single-snapshot
-          """
-        }
-      }
+stage('Build & Push Image') {
+  steps {
+    container('kaniko') {
+      sh """
+      /kaniko/executor \
+        --context /home/jenkins/agent/workspace/pipeline/Astroporfolio \
+        --dockerfile Astroporfolio/deploy/build_img/Dockerfile \
+        --destination jorgeas/astroporfolio:${GIT_COMMIT} \
+        --destination jorgeas/astroporfolio:latest \
+        --snapshot-mode=redo \
+        --single-snapshot
+      """
     }
+  }
+}
 
     stage('Update Helm Values') {
       steps {

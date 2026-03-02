@@ -24,7 +24,7 @@ pipeline {
 
   environment {
     // Definimos la ruta al Dockerfile y al repo de Helm
-    DOCKER_IMAGE = "tu-usuario-dockerhub/porfolioastro" 
+    DOCKER_IMAGE = "jorgeasca/porfolioastro" 
     HELM_REPO_URL = "https://github.com/jorgeasca/porfolioastro.git"
   }
 

@@ -2,7 +2,7 @@ app:
   name: miporfolio
   image:
     repository: jorgeas/astroporfolio
-    tag: "latest" # El Jenkinsfile reemplazará este valor
+    tag: "dd49b228f2a248ba09c28189dcfb8c7438fd23b6"
     pullPolicy: Always
 
 # Variables para los recursos del clúster

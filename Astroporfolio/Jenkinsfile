@@ -27,14 +27,25 @@ pipeline {
 
   environment {
     DOCKER_IMAGE = "jorgeas/astroporfolio:latest" 
-    // URL corregida con mayúsculas para evitar redirecciones de GitHub
     HELM_REPO_URL = "https://github.com/JorgeAsca/PorfolioAstro.git"
   }
 
   stages {
-    stage('Checkout') {
+    stage('Checkout & Skip Check') {
       steps {
         checkout scm
+        script {
+            // Obtenemos el mensaje del último commit
+            def commitMsg = sh(script: 'git log -1 --pretty=%B', returnStdout: true).trim()
+            echo "Mensaje del último commit: ${commitMsg}"
+            
+            // Si el mensaje contiene [skip ci], abortamos la ejecución con éxito
+            if (commitMsg.contains("[skip ci]")) {
+                echo "Detectado commit automático. Saltando ejecución para evitar bucle."
+                currentBuild.result = 'SUCCESS'
+                error("Deteniendo pipeline: Commit de Jenkins detectado.")
+            }
+        }
       }
     }
 
@@ -69,10 +80,9 @@ pipeline {
           
           git add Astroporfolio/deploy/miporfolio/values.yaml
           
-          # Mensaje con múltiples etiquetas de skip para máxima seguridad
-          git commit -m "chore: update image tag ${GIT_COMMIT} [skip ci] [ci skip] ***NO_CI***"
+          # Mensaje reforzado para que el primer stage lo detecte siempre
+          git commit -m "chore: update image tag ${GIT_COMMIT} [skip ci]"
           
-          # Push a la URL correcta
           git push https://${GIT_USER}:${GIT_PASSWORD}@github.com/JorgeAsca/PorfolioAstro.git HEAD:main
           """
         }

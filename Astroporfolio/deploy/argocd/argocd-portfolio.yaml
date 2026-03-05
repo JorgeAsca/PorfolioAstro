@@ -9,9 +9,9 @@ spec:
   source:
     # URL de tu repositorio de GitHub
     repoURL: https://github.com/jorgeasca/porfolioastro.git 
-    targetRevision: master
+    targetRevision: main
     # Ruta exacta donde está tu Chart de Helm
-    path: deploy/miporfolio
+    path: Astroporfolio/deploy/miporfolio/values.yaml
     helm:
       valueFiles:
         - values.yaml

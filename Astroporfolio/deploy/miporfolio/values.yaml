@@ -2,7 +2,7 @@ app:
   name: miporfolio
   image:
     repository: jorgeas/astroporfolio
-    tag: "37bbd61953358342f435c2c76b20cac7a5c414e4"
+    tag: "69266456f532f34e5d26b5e1cd34c65b8f2a2e81"
     pullPolicy: Always
 
 # Variables para los recursos del clúster

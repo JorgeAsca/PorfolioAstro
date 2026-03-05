@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: deploy-astroporfolio
-  namespace: namespace-astroporfolio 
+  namespace: miportfolio 
 spec:
   replicas: 1
   selector:

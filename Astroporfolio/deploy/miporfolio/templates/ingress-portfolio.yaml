@@ -4,9 +4,10 @@ metadata:
   name: portfolio-ingress
   namespace: miportfolio
   annotations:
+    kubernetes.io/ingress.class: "public" 
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
-  ingressClassName: nginx
+  ingressClassName: public 
   rules:
   - host: www.jorgedesarrollador.com
     http:
@@ -15,6 +16,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: service-astroporfolio
+            name: service-astroporfolio 
             port:
               number: 80

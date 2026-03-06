@@ -4,7 +4,8 @@ metadata:
   name: jenkins-ingress
   namespace: jenkins
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    kubernetes.io/ingress.class: "public"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   ingressClassName: public
   tls:

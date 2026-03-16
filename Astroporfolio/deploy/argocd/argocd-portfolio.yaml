@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: miportfolio
+  name: portfolio-astro
   namespace: argocd
 spec:
   project: default

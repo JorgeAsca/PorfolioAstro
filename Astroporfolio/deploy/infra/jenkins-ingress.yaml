@@ -5,12 +5,18 @@ metadata:
   namespace: jenkins
   annotations:
     kubernetes.io/ingress.class: "public"
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    # Cambiado a true para que GitHub no tenga problemas de seguridad
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    # Anotaciones necesarias para que el Webhook de GitHub no sea bloqueado por Jenkins
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      proxy_set_header Origin "";
+    nginx.ingress.kubernetes.io/proxy-body-size: "50m"
 spec:
   ingressClassName: public
   tls:
   - hosts:
     - jenkins.jorgedesarrollador.com
+    # Este secreto debe existir en el namespace 'jenkins'
     secretName: jenkins-tls-prod
   rules:
   - host: jenkins.jorgedesarrollador.com
@@ -20,6 +26,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: jenkins 
+            name: jenkins
             port:
               number: 8080

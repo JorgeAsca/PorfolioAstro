@@ -17,15 +17,15 @@ spec:
         - name: regcred
       containers:
         - name: astroporfolio
-          # Aquí está el cambio clave: ahora usa el repositorio y el tag del values.yaml
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy | default "Always" }}
+          # Usamos .Values.app porque así está definido en tu archivo values.yaml
+          image: "{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}"
+          imagePullPolicy: {{ .Values.app.image.pullPolicy | default "Always" }}
           ports:
             - containerPort: 80
           resources:
             requests:
-              cpu: "{{ .Values.resources.requests.cpu | default "100m" }}"
-              memory: "{{ .Values.resources.requests.memory | default "128Mi" }}"
+              cpu: "100m"
+              memory: "128Mi"
             limits:
-              cpu: "{{ .Values.resources.limits.cpu | default "500m" }}"
-              memory: "{{ .Values.resources.limits.memory | default "256Mi" }}"
+              cpu: "500m"
+              memory: "256Mi"

@@ -26,8 +26,8 @@ pipeline {
   }
 
   environment {
-    DOCKER_IMAGE = "jorgeas/astroporfolio:latest" 
-    HELM_REPO_URL = "https://github.com/JorgeAsca/PorfolioAstro.git"
+    // Definimos la base del repositorio para evitar errores de escritura
+    DOCKER_REPO = "jorgeas/astroporfolio"
   }
 
   stages {
@@ -35,16 +35,14 @@ pipeline {
       steps {
         checkout scm
         script {
-            // Obtenemos el mensaje del último commit
-            def commitMsg = sh(script: 'git log -1 --pretty=%B', returnStdout: true).trim()
-            echo "Mensaje del último commit: ${commitMsg}"
-            
-            // Si el mensaje contiene [skip ci], abortamos la ejecución con éxito
-            if (commitMsg.contains("[skip ci]")) {
-                echo "Detectado commit automático. Saltando ejecución para evitar bucle."
-                currentBuild.result = 'SUCCESS'
-                error("Deteniendo pipeline: Commit de Jenkins detectado.")
-            }
+          def commitMsg = sh(script: 'git log -1 --pretty=%B', returnStdout: true).trim()
+          echo "Mensaje del último commit: ${commitMsg}"
+          
+          if (commitMsg.contains("[skip ci]")) {
+            echo "Detectado commit automático. Saltando ejecución para evitar bucle."
+            currentBuild.result = 'SUCCESS'
+            error("Deteniendo pipeline: Commit de Jenkins detectado.")
+          }
         }
       }
     }
@@ -54,10 +52,10 @@ pipeline {
         container('kaniko') {
           sh """
           /kaniko/executor \
-            --context /home/jenkins/agent/workspace/pipeline/Astroporfolio \
+            --context ${WORKSPACE}/Astroporfolio \
             --dockerfile Astroporfolio/deploy/build_img/Dockerfile \
-            --destination jorgeas/astroporfolio:${GIT_COMMIT} \
-            --destination jorgeas/astroporfolio:latest \
+            --destination ${DOCKER_REPO}:${GIT_COMMIT} \
+            --destination ${DOCKER_REPO}:latest \
             --snapshot-mode=redo \
             --single-snapshot
           """
@@ -68,22 +66,21 @@ pipeline {
     stage('Update Helm Values') {
       steps {
         withCredentials([usernamePassword(
-        credentialsId: 'git-creds', 
-        usernameVariable: 'GIT_USER',
-        passwordVariable: 'GIT_PASSWORD'
+          credentialsId: 'git-creds', 
+          usernameVariable: 'GIT_USER',
+          passwordVariable: 'GIT_PASSWORD'
         )]) {
           sh """
           git config user.email "jascola171@gmail.com"
           git config user.name "jenkins"
-      
-          # Este sed busca la línea que tenga 'tag:' y reemplaza TODO lo que haya después
+          
+          # Buscamos la línea que contiene 'tag:' y la reemplazamos manteniendo el formato
           sed -i 's/tag: .*/tag: "${GIT_COMMIT}"/' Astroporfolio/deploy/miporfolio/values.yaml
-      
+          
           git add Astroporfolio/deploy/miporfolio/values.yaml
-      
-          # Importante: el [skip ci] evita que Jenkins entre en un bucle infinito
           git commit -m "chore: update image tag ${GIT_COMMIT} [skip ci]"
-      
+          
+          # Empujamos los cambios a la rama main
           git push https://${GIT_USER}:${GIT_PASSWORD}@github.com/JorgeAsca/PorfolioAstro.git HEAD:main
           """
         }

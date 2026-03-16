@@ -66,28 +66,28 @@ pipeline {
     }
 
     stage('Update Helm Values') {
-  steps {
-    withCredentials([usernamePassword(
-      credentialsId: 'git-creds', 
-      usernameVariable: 'GIT_USER',
-      passwordVariable: 'GIT_PASSWORD'
-    )]) {
-      sh """
-      git config user.email "jascola171@gmail.com"
-      git config user.name "jenkins"
+      steps {
+        withCredentials([usernamePassword(
+        credentialsId: 'git-creds', 
+        usernameVariable: 'GIT_USER',
+        passwordVariable: 'GIT_PASSWORD'
+        )]) {
+          sh """
+          git config user.email "jascola171@gmail.com"
+          git config user.name "jenkins"
       
-      # Este sed busca la línea que tenga 'tag:' y reemplaza TODO lo que haya después
-      sed -i 's/tag: .*/tag: "${GIT_COMMIT}"/' Astroporfolio/deploy/miporfolio/values.yaml
+          # Este sed busca la línea que tenga 'tag:' y reemplaza TODO lo que haya después
+          sed -i 's/tag: .*/tag: "${GIT_COMMIT}"/' Astroporfolio/deploy/miporfolio/values.yaml
       
-      git add Astroporfolio/deploy/miporfolio/values.yaml
+          git add Astroporfolio/deploy/miporfolio/values.yaml
       
-      # Importante: el [skip ci] evita que Jenkins entre en un bucle infinito
-      git commit -m "chore: update image tag ${GIT_COMMIT} [skip ci]"
+          # Importante: el [skip ci] evita que Jenkins entre en un bucle infinito
+          git commit -m "chore: update image tag ${GIT_COMMIT} [skip ci]"
       
-      git push https://${GIT_USER}:${GIT_PASSWORD}@github.com/JorgeAsca/PorfolioAstro.git HEAD:main
-      """
+          git push https://${GIT_USER}:${GIT_PASSWORD}@github.com/JorgeAsca/PorfolioAstro.git HEAD:main
+          """
+        }
+      }
     }
-  }
-}
   }
 }

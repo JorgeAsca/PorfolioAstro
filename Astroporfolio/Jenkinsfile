@@ -6,22 +6,49 @@ pipeline {
     }
 
     stages {
-        stage('Guardrail: Check for Loop') {
+        stage('Check Skip CI') {
             steps {
                 script {
+                    // Checkout inicial
+                    checkout scm
                     def commitMsg = sh(script: 'git log -1 --pretty=%B', returnStdout: true).trim()
+                    
                     if (commitMsg.contains("[skip ci]")) {
-                        echo "Parando: Este commit fue generado por Jenkins."
-                        // Esta es la clave: limpia el resultado y detiene el flujo
+                        echo ">>> Salida preventiva: Este commit lo hizo Jenkins."
+                        // Esta línea es la que detiene el pipeline por completo
                         currentBuild.result = 'SUCCESS'
-                        return // Sale del script de Groovy
+                        // Usamos un error controlado para frenar todo el pipeline de golpe
+                        error("Parando pipeline para evitar bucle infinito")
                     }
                 }
             }
         }
 
         stage('Build & Push Image') {
-            // Solo si el stage anterior no detuvo la ejecución
+            agent {
+                kubernetes {  
+                    yaml """
+                    apiVersion: v1
+                    kind: Pod
+                    spec:
+                      containers:
+                      - name: kaniko
+                        image: gcr.io/kaniko-project/executor:debug
+                        command: ["/busybox/cat"]
+                        tty: true
+                        volumeMounts:
+                          - name: docker-config
+                            mountPath: /kaniko/.docker
+                      volumes:
+                        - name: docker-config
+                          secret:
+                            secretName: dockerhub-secret
+                            items:
+                              - key: .dockerconfigjson
+                                path: config.json
+                    """
+                }
+            }
             steps {
                 container('kaniko') {
                     sh """
@@ -48,11 +75,12 @@ pipeline {
                     git config user.email "jascola171@gmail.com"
                     git config user.name "jenkins"
                     
-                    # Solo actualiza si el tag es diferente para evitar commits vacíos
+                    # Actualizamos el tag
                     sed -i 's/tag: .*/tag: "${GIT_COMMIT}"/' Astroporfolio/deploy/miporfolio/values.yaml
                     
-                    if git diff --quiet Astroporfolio/deploy/miporfolio/values.yaml; then
-                        echo "No hay cambios en el tag, saltando push."
+                    # COMPROBACIÓN ANTIBUCLE: Solo hacemos commit si el archivo cambió de verdad
+                    if git diff --exit-code Astroporfolio/deploy/miporfolio/values.yaml; then
+                        echo "No hay cambios nuevos en values.yaml, saltando push."
                     else
                         git add Astroporfolio/deploy/miporfolio/values.yaml
                         git commit -m "chore: update image tag ${GIT_COMMIT} [skip ci]"
@@ -61,6 +89,12 @@ pipeline {
                     """
                 }
             }
+        }
+    }
+    
+    post {
+        aborted {
+            echo "Pipeline abortado para evitar recursividad."
         }
     }
 }

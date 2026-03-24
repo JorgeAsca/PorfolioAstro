@@ -1,89 +1,104 @@
 pipeline {
-  agent none 
+    agent none 
 
-  environment {
-    DOCKER_REPO = "jorgeas/astroporfolio"
-  }
-
-  stages {
-    stage('Checkout & Skip Check') {
-      agent any  
-      steps {
-        checkout scm
-        script {
-          def commitMsg = sh(script: 'git log -1 --pretty=%B', returnStdout: true).trim()
-          echo "Mensaje del último commit: ${commitMsg}"
-          
-          if (commitMsg.contains("[skip ci]")) {
-            echo "Detectado commit automático. Saltando ejecución para evitar bucle."
-            currentBuild.result = 'SUCCESS'
-            error("Deteniendo pipeline: Commit de Jenkins detectado.")
-          }
-        }
-      }
+    environment {
+        DOCKER_REPO = "jorgeas/astroporfolio"
     }
 
-    stage('Build & Push Image') {
-      agent {
-        kubernetes {  
-          yaml """
-            apiVersion: v1
-            kind: Pod
-            spec:
-              containers:
-              - name: kaniko
-                image: gcr.io/kaniko-project/executor:debug
-                command:
-                - /busybox/cat
-                tty: true
-                volumeMounts:
-                  - name: docker-config
-                    mountPath: /kaniko/.docker
-              volumes:
-                - name: docker-config
-                  secret:
-                    secretName: dockerhub-secret
-                    items:
-                      - key: .dockerconfigjson
-                        path: config.json
-            """
+    stages {
+        stage('Check Skip CI') {
+            agent any
+            steps {
+                script {
+                    // Hacemos el checkout una sola vez aquí
+                    checkout scm
+                    def commitMsg = sh(script: 'git log -1 --pretty=%B', returnStdout: true).trim()
+                    echo "Mensaje del último commit: ${commitMsg}"
+                    
+                    if (commitMsg.contains("[skip ci]")) {
+                        echo ">>> Detectado commit de Jenkins. Saltando el resto del pipeline."
+                        currentBuild.result = 'SUCCESS'
+                    }
+                }
+            }
         }
-      }
-      steps {
-        checkout scm  
-        container('kaniko') {
-          sh """
-          /kaniko/executor \
-            --context ${WORKSPACE}/Astroporfolio \
-            --dockerfile Astroporfolio/deploy/build_img/Dockerfile \
-            --destination ${DOCKER_REPO}:${GIT_COMMIT} \
-            --destination ${DOCKER_REPO}:latest \
-            --snapshot-mode=redo \
-            --single-snapshot
-          """
-        }
-      }
-    }
 
-    stage('Update Helm Values') {
-      agent any  
-      steps {
-        checkout scm  
-        withCredentials([usernamePassword(
-          credentialsId: 'git-creds', 
-          usernameVariable: 'GIT_USER',
-          passwordVariable: 'GIT_PASSWORD'
-        )]) {
-          sh """
-          git config user.email "jascola171@gmail.com"
-          git config user.name "jenkins"
-          sed -i 's/tag: .*/tag: "${GIT_COMMIT}"/' Astroporfolio/deploy/miporfolio/values.yaml
-          git add Astroporfolio/deploy/miporfolio/values.yaml
-          git commit -m "chore: update image tag ${GIT_COMMIT} [skip ci]"
-          git push https://${GIT_USER}:${GIT_PASSWORD}@github.com/JorgeAsca/PorfolioAstro.git HEAD:main
-          """
+        stage('Build & Push Image') {
+            // Solo ejecuta este stage si NO contiene [skip ci]
+            when {
+                expression { 
+                    def msg = sh(script: 'git log -1 --pretty=%B', returnStdout: true).trim()
+                    return !msg.contains("[skip ci]") 
+                }
+            }
+            agent {
+                kubernetes {  
+                    yaml """
+                    apiVersion: v1
+                    kind: Pod
+                    spec:
+                      containers:
+                      - name: kaniko
+                        image: gcr.io/kaniko-project/executor:debug
+                        command:
+                        - /busybox/cat
+                        tty: true
+                        volumeMounts:
+                          - name: docker-config
+                            mountPath: /kaniko/.docker
+                      volumes:
+                        - name: docker-config
+                          secret:
+                            secretName: dockerhub-secret
+                            items:
+                              - key: .dockerconfigjson
+                                path: config.json
+                    """
+                }
+            }
+            steps {
+                container('kaniko') {
+                    sh """
+                    /kaniko/executor \
+                        --context ${WORKSPACE}/Astroporfolio \
+                        --dockerfile Astroporfolio/deploy/build_img/Dockerfile \
+                        --destination ${DOCKER_REPO}:${GIT_COMMIT} \
+                        --destination ${DOCKER_REPO}:latest \
+                        --snapshot-mode=redo \
+                        --single-snapshot
+                    """
+                }
+            }
         }
-      }
+
+        stage('Update Helm Values') {
+            // Solo ejecuta este stage si NO contiene [skip ci]
+            when {
+                expression { 
+                    def msg = sh(script: 'git log -1 --pretty=%B', returnStdout: true).trim()
+                    return !msg.contains("[skip ci]") 
+                }
+            }
+            agent any  
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'git-creds', 
+                    usernameVariable: 'GIT_USER',
+                    passwordVariable: 'GIT_PASSWORD'
+                )]) {
+                    sh """
+                    git config user.email "jascola171@gmail.com"
+                    git config user.name "jenkins"
+                    
+                    # Actualizamos el tag en el YAML
+                    sed -i 's/tag: .*/tag: "${GIT_COMMIT}"/' Astroporfolio/deploy/miporfolio/values.yaml
+                    
+                    git add Astroporfolio/deploy/miporfolio/values.yaml
+                    git commit -m "chore: update image tag ${GIT_COMMIT} [skip ci]"
+                    git push https://${GIT_USER}:${GIT_PASSWORD}@github.com/JorgeAsca/PorfolioAstro.git HEAD:main
+                    """
+                }
+            }
+        }
     }
-  }
 }

@@ -7,21 +7,23 @@ pipeline {
 
   stages {
     stage('Checkout & Skip Check') {
-      agent any  
-      steps {
+    agent any 
+    steps {
         checkout scm
         script {
-          def commitMsg = sh(script: 'git log -1 --pretty=%B', returnStdout: true).trim()
-          echo "Mensaje del último commit: ${commitMsg}"
-          
-          if (commitMsg.contains("[skip ci]")) {
-            echo "Detectado commit automático. Saltando ejecución para evitar bucle."
-            currentBuild.result = 'SUCCESS'
-            error("Deteniendo pipeline: Commit de Jenkins detectado.")
-          }
+            
+            def commitMsg = sh(script: 'git log -1 --pretty=%B', returnStdout: true).trim()
+            echo "Mensaje del último commit: ${commitMsg}"
+            
+            if (commitMsg.contains("[skip ci]")) {
+                echo "🛑 Detectado commit de Jenkins. Abortando suavemente."
+                
+                currentBuild.result = 'SUCCESS'
+                return 
+            }
         }
-      }
     }
+}
 
     stage('Build & Push Image') {
       agent {
